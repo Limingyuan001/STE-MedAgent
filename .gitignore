@@ -1,0 +1,25 @@
+__pycache__/
+*.pyc
+*.egg-info/
+.env
+logs/
+experiments/logs/
+experiments/memory/memory_*.jsonl
+*.jsonl
+!chestagentbench/metadata.jsonl
+!experiments/memory/pre-constructed*/metadata_val*.jsonl
+!experiments/M4CXR/SLAKE_VQA/slake_test_en_closed_xray_114.json
+
+# IDE / local settings
+.claude/
+
+# Benchmark images (licensed CXR data, not redistributable)
+chestagentbench/figures/
+
+# Demo DICOM / large binary files
+demo/chest/*.dcm
+
+# Model weight cache
+benchmark/tool_models/
+
+# Notebooks output (keep notebooks but not heavy outputs)
