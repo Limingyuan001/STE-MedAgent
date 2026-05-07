@@ -1,4 +1,4 @@
-# STE-MedAgent: Scaling Tool-Use Experience for Medical Reasoning Agent
+# EATS: Scaling Tool-Use Experience for Medical Reasoning Agent
 
 <p align="center">
   <img src="https://img.shields.io/badge/arXiv-coming soon-FF6B6B?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv (coming soon)">
@@ -14,7 +14,7 @@
 
 ## Overview
 
-STE-MedAgent is a **long-term experience-guided medical reasoning framework** that equips a ReAct-style agent with continuously accumulated tool-use experience. Rather than relying solely on static tool descriptions, the agent:
+EATS is a **long-term experience-guided medical reasoning framework** that equips a ReAct-style agent with continuously accumulated tool-use experience. Rather than relying solely on static tool descriptions, the agent:
 
 1. **Retrieves** tool-reliability records from semantically similar historical cases at inference time.
 2. **Injects** the retrieved reference into the reasoning context for reliability-aware tool selection.
@@ -117,8 +117,8 @@ python tool_server_mimic.py
 ### Install
 
 ```bash
-git clone https://github.com/Limingyuan001/STE-MedAgent.git
-cd STE-MedAgent
+git clone https://github.com/Limingyuan001/EATS.git
+cd EATS
 pip install -e .
 ```
 
