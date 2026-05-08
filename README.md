@@ -143,6 +143,14 @@ pip install -e .
 
 If you want to run local vLLM services, place model weights locally or let vLLM download them from Hugging Face, then use the scripts in `scripts/`.
 
+For a dedicated local vLLM serving environment, you can also install:
+
+```bash
+pip install -r requirements-vllm.txt
+```
+
+This file is intended for the model-serving environment only and does not replace the main EATS project dependencies.
+
 ### Environment Checklist
 
 | Package | Purpose |

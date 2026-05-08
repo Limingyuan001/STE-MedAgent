@@ -1,0 +1,36 @@
+# Dedicated dependencies for running local vLLM services used by EATS.
+#
+# This file is intentionally narrower than the main project dependencies in
+# pyproject.toml. It targets the OpenAI-compatible model serving layer only,
+# for example scripts/start_qwen3_vl_32b.sh and scripts/start_qwen3_vl_8b.sh.
+#
+# Recommended usage:
+#   conda create -n VLM python=3.11 -y
+#   conda activate VLM
+#   pip install -r requirements-vllm.txt
+#
+# Notes:
+# - Install a CUDA-compatible PyTorch build first if your environment does not
+#   already provide one. vLLM and torch versions must match your CUDA runtime.
+# - Do not expect this file alone to provision GPU drivers, CUDA toolkit, or
+#   NCCL. Those remain system-level requirements.
+
+vllm>=0.8.5
+torch>=2.2.0
+torchvision>=0.17.0
+transformers>=4.51.0
+tokenizers>=0.21.0
+accelerate>=0.30.0
+sentencepiece>=0.1.99
+huggingface-hub>=0.30.0
+hf-transfer>=0.1.9
+safetensors>=0.4.3
+pillow>=10.0.0
+numpy<2
+requests>=2.31.0
+tqdm>=4.66.0
+openai>=1.30.0
+httpx>=0.27.0
+python-dotenv>=1.0.0
+fastapi>=0.110.0
+uvicorn>=0.30.0
