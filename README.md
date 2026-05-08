@@ -60,25 +60,44 @@ New Case (Image + Question)
 
 ## Service Architecture
 
-The framework relies on **three independent API services**. Each runs as a separate process, typically on different ports:
+The framework relies on **multiple independent API services**. Each runs as a separate process, typically on different ports:
 
 ### Service 1 — LLM Core (32B, default)
 
 Serves Qwen3-VL 32B via an OpenAI-compatible endpoint.
 
 ```bash
-# Example using vLLM
-vllm serve qwen3-vl-32b-instruct \
-  --port 8000 \
-  --tensor-parallel-size 2 \
-  --max-model-len 32768
+bash scripts/start_qwen3_vl_32b.sh
 ```
 
 - **Base URL:** `http://127.0.0.1:8000/v1`
 - **Model name:** `qwen3-vl-32b-instruct`
 - **Recommended hardware:** 2× NVIDIA RTX Pro 6000 (96 GB VRAM each)
 
-### Service 2 — LLM Core (2B, optional)
+To stop it:
+
+```bash
+bash scripts/stop_qwen3_vl_32b.sh
+```
+
+### Service 2 — LLM Core (8B, optional)
+
+Serves Qwen3-VL 8B for a lighter local deployment.
+
+```bash
+bash scripts/start_qwen3_vl_8b.sh
+```
+
+- **Base URL:** `http://127.0.0.1:8002/v1`
+- **Model name:** `qwen3-vl-8b-instruct`
+
+To stop it:
+
+```bash
+bash scripts/stop_qwen3_vl_8b.sh
+```
+
+### Service 3 — LLM Core (2B, optional)
 
 Serves Qwen3-VL 2B for lightweight experiments.
 
@@ -91,7 +110,7 @@ vllm serve qwen3-vl-2b-instruct-fp8 \
 - **Base URL:** `http://127.0.0.1:8001/v1`
 - **Model name:** `qwen3-vl-2b-instruct-fp8`
 
-### Service 3 — Tool API Server
+### Service 4 — Tool API Server
 
 Hosts all six specialized neural tools behind a single REST endpoint.
 
@@ -121,6 +140,8 @@ git clone https://github.com/Limingyuan001/EATS.git
 cd EATS
 pip install -e .
 ```
+
+If you want to run local vLLM services, place model weights locally or let vLLM download them from Hugging Face, then use the scripts in `scripts/`.
 
 ### Environment Checklist
 
@@ -153,6 +174,11 @@ LLM_BASE_URL=http://127.0.0.1:8000/v1
 LLM_MODEL=qwen3-vl-32b-instruct
 LLM_API_KEY=your_key_here
 
+# LLM core — 8B local (optional alternative endpoint)
+LLM_8B_BASE_URL=http://127.0.0.1:8002/v1
+LLM_8B_MODEL=qwen3-vl-8b-instruct
+LLM_8B_API_KEY=your_key_here
+
 # LLM core — 2B local (optional)
 LLM_2B_BASE_URL=http://127.0.0.1:8001/v1
 LLM_2B_MODEL=qwen3-vl-2b-instruct-fp8
@@ -164,6 +190,33 @@ OPENAI_API_KEY=your_openai_key_here
 # Tool server
 TOOL_API_BASE_URL=http://127.0.0.1:8010
 ```
+
+### Local vLLM scripts
+
+The repository now includes local service scripts:
+
+```bash
+# 32B default service
+bash scripts/start_qwen3_vl_32b.sh
+bash scripts/stop_qwen3_vl_32b.sh
+
+# 8B optional service
+bash scripts/start_qwen3_vl_8b.sh
+bash scripts/stop_qwen3_vl_8b.sh
+```
+
+Useful overrides:
+
+```bash
+# Use local weights instead of a Hugging Face model ID
+MODEL_DIR=/path/to/qwen3-vl-32b-instruct bash scripts/start_qwen3_vl_32b.sh
+
+# Pin specific GPUs / port
+CUDA_VISIBLE_DEVICES=0,1 PORT=8000 TP=2 bash scripts/start_qwen3_vl_32b.sh
+CUDA_VISIBLE_DEVICES=0 PORT=8002 TP=1 bash scripts/start_qwen3_vl_8b.sh
+```
+
+If you want to run experiments with 8B as the main model, set `LLM_BASE_URL=http://127.0.0.1:8002/v1` and `LLM_MODEL=qwen3-vl-8b-instruct` in `.env`.
 
 ---
 
